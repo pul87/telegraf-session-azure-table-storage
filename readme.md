@@ -17,11 +17,11 @@ $ npm install telegraf-session-azure-table-storage
 
 ```js
 const Telegraf = require('telegraf')
-const RedisSession = require('telegraf-session-azure-table-storage')
+const AzureTableStorageSession = require('telegraf-session-azure-table-storage')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-const session = new RedisSession({
+const session = new AzureTableStorageSession({
   store: {
     host: process.env.AZURE_STORAGE_ACCOUNT,
     port: process.env.AZURE_STORAGE_ACCESS_KEY
