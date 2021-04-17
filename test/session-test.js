@@ -1,25 +1,27 @@
 const Telegraf = require('telegraf')
 const test = require('ava')
-const RedisSession = require('../lib/session')
+const AzureTableStorageSession = require('../lib/session')
+
+const storeOptions = {
+  accountName: process.env.AZURE_STORAGE_ACCOUNT || '',
+  accountKey: process.env.AZURE_STORAGE_ACCESS_KEY || ''
+}
 
 test.serial('should be defined', (t) => {
   const app = new Telegraf()
-  const session = new RedisSession({
-    store: {
-      host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-      port: process.env.TELEGRAM_SESSION_PORT || 6379
-    }
+
+  const session = new AzureTableStorageSession({
+    store: storeOptions
   })
-  app.on('text', session, (ctx) => t.true('session' in ctx))
+  app.on('text', session, (ctx) => {
+    return t.true('session' in ctx)
+  })
   return app.handleUpdate({ message: { chat: { id: 1 }, from: { id: 1 }, text: 'hey' } })
 })
 
 test.serial('should retrieve and save session', (t) => {
-  const redisSession = new RedisSession({
-    store: {
-      host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-      port: process.env.TELEGRAM_SESSION_PORT || 6379
-    }
+  const redisSession = new AzureTableStorageSession({
+    store: storeOptions
   })
   const key = '1:1'
   return redisSession.getSession(key)
@@ -39,11 +41,8 @@ test.serial('should retrieve and save session', (t) => {
 
 test.serial('should handle existing session', (t) => {
   const app = new Telegraf()
-  const session = new RedisSession({
-    store: {
-      host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-      port: process.env.TELEGRAM_SESSION_PORT || 6379
-    }
+  const session = new AzureTableStorageSession({
+    store: storeOptions
   })
   app.on('text',
     session.middleware(),
@@ -57,11 +56,8 @@ test.serial('should handle existing session', (t) => {
 
 test.serial('should handle not existing session', (t) => {
   const app = new Telegraf()
-  const session = new RedisSession({
-    store: {
-      host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-      port: process.env.TELEGRAM_SESSION_PORT || 6379
-    }
+  const session = new AzureTableStorageSession({
+    store: storeOptions
   })
   app.on('text',
     session.middleware(),
@@ -74,11 +70,8 @@ test.serial('should handle not existing session', (t) => {
 
 test.serial('should handle session reset', (t) => {
   const app = new Telegraf()
-  const session = new RedisSession({
-    store: {
-      host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-      port: process.env.TELEGRAM_SESSION_PORT || 6379
-    }
+  const session = new AzureTableStorageSession({
+    store: storeOptions
   })
   app.on('text',
     session.middleware(),
@@ -89,3 +82,4 @@ test.serial('should handle session reset', (t) => {
     })
   return app.handleUpdate({ message: { chat: { id: 1 }, from: { id: 1 }, text: 'hey' } })
 })
+

@@ -1,9 +1,9 @@
 const Telegraf = require('telegraf')
-const RedisSession = require('../lib/session')
+const AzureTableStorageSession = require('../lib/session')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-const session = new RedisSession({ ttl: 5 })
+const session = new AzureTableStorageSession({ ttl: 5 })
 
 bot.use(session.middleware())
 
