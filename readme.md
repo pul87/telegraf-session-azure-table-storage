@@ -2,28 +2,29 @@
 [![NPM Version](https://img.shields.io/npm/v/telegraf-session-redis.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-session-redis)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-# Redis session middleware for Telegraf
+# Azure table storage session middleware for Telegraf
 
-Redis powered session middleware for [Telegraf](https://github.com/telegraf/telegraf).
+Azure table storage powered session middleware for [Telegraf](https://github.com/telegraf/telegraf).
+Forked from telegraf-session-redis
 
 ## Installation
 
 ```js
-$ npm install telegraf-session-redis
+$ npm install telegraf-session-azure-table-storage
 ```
 
 ## Example
 
 ```js
 const Telegraf = require('telegraf')
-const RedisSession = require('telegraf-session-redis')
+const RedisSession = require('telegraf-session-azure-table-storage')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 const session = new RedisSession({
   store: {
-    host: process.env.TELEGRAM_SESSION_HOST || '127.0.0.1',
-    port: process.env.TELEGRAM_SESSION_PORT || 6379
+    host: process.env.AZURE_STORAGE_ACCOUNT,
+    port: process.env.AZURE_STORAGE_ACCESS_KEY
   }
 })
 
@@ -44,16 +45,16 @@ you perform OAUTH or something similar, when a REDIRECT_URI is called
 on your bot server.
 
 ```js
-const redisSession = new RedisSession()
+const azureSession = new AzureTableStorageSession()
 
 // Retrieve session state by session key
-redisSession.getSession(key)
+azureSession.getSession(key)
   .then((session) => {
     console.log('Session state', session)
   })
 
 // Save session state
-redisSession.saveSession(key, session)
+azureSession.saveSession(key, session)
 ```
 
 ## API
@@ -61,13 +62,9 @@ redisSession.saveSession(key, session)
 ### Options
 
 * `store`:
-  * `host`: Redis host (default: *127.0.0.1*)
-  * `port`: Redis port (default: *6379*)
-  * `path`: Unix socket string
-  * `url`:  Redis url
-  * `...`: [Other redis connection options](http://redis.js.org/#api-rediscreateclient)
+  * `accountName`: Azure storage account
+  * `accountKey`: Azure storage account access key
 * `property`: context property name (default: `session`)
-* `ttl`: session ttl in seconds (default: forever)
 * `getSessionKey`: session key resolver function `(ctx) => any`)
 
 Default implementation of `getSessionKey`:

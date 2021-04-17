@@ -1,12 +1,12 @@
 {
-  "name": "telegraf-session-redis",
-  "version": "5.1.0",
-  "description": "Redis powered session middleware for Telegraf",
+  "name": "telegraf-session-azure-table-storage",
+  "version": "1.0.0",
+  "description": "Azure Table Storage powered session middleware for Telegraf",
   "main": "lib/session.js",
   "types": "lib/session.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/telegraf/telegraf-session-redis.git"
+    "url": "git+ssh://git@github.com/pul87/telegraf-session-azure-table-storage.git"
   },
   "keywords": [
     "telegram",
@@ -15,14 +15,15 @@
     "bot framework",
     "session",
     "middleware",
-    "redis"
+    "azure-storage",
+    "Azure Table Sorage"
   ],
-  "author": "Vitaly Domnikov <oss@vitaly.codes>",
+  "author": "Paolo Basso",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/telegraf/telegraf-session-redis/issues"
+    "url": "https://github.com/pul87/telegraf-session-azure-table-storage/issues"
   },
-  "homepage": "https://github.com/telegraf/telegraf-session-redis#readme",
+  "homepage": "https://github.com/pul87/telegraf-session-azure-table-storage#readme",
   "engines": {
     "node": ">=6.2.1"
   },
@@ -32,12 +33,11 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "ava test"
+    "test": "ava test --verbose"
   },
   "dependencies": {
-    "@types/redis": "^2.8.6",
-    "debug": "^4.1.1",
-    "redis": "^2.6.0-1"
+    "azure-storage": "^2.10.3",
+    "debug": "^4.1.1"
   },
   "peerDependencies": {
     "telegraf": "^3.9.0"
