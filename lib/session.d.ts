@@ -19,7 +19,7 @@ declare module 'telegraf-session-azure-table-storage' {
         middleware(): ContextUpdate;
         getSession(key: Context): string;
         clearSession(key: string): void;
-        constructor(options: AzureTableStorageOptions);
+        constructor(options?: AzureTableStorageOptions);
         saveSession(key: string, session: object): object;
     }
 
